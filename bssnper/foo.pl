@@ -886,7 +886,6 @@ sub Bayes
 		return "$gntpmaybe\t$qualerr"; 
 	}
 
-    print $baseqWA;
 
 	#P(Di|g=Gj)
 	my $nn=&Factorial($watson[0],$crick[1],$crick[2],$watson[3]);
