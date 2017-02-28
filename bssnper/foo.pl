@@ -56,13 +56,13 @@ $mapvalue ||=20;
 #$pvalue ||=0.01;
 
 my $eee=2.7;
-$interval = $fasta . ".len";
-if(!(-e $interval)) {
-	system("$Bin/chrLenExtract $fasta");
-}
-if(system("$Bin/rrbsSnp $interval $fasta $bam $output $methcg $methchg $methchh $minquali $mincover $maxcover $minhetfreq $errorate $mapvalue") != 0) {
-	die "Error!";
-}
+# $interval = $fasta . ".len";
+# if(!(-e $interval)) {
+# 	system("$Bin/chrLenExtract $fasta");
+# }
+# if(system("$Bin/rrbsSnp $interval $fasta $bam $output $methcg $methchg $methchh $minquali $mincover $maxcover $minhetfreq $errorate $mapvalue") != 0) {
+# 	die "Error!";
+# }
 print "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tGENOTYPE\tFREQUENCY\tNumber_of_watson[A,T,C,G]\tNumber_of_crick[A,T,C,G]\tMean_Quality_of_Watson[A,T,C,G]\tMean_Quality_of_Crick[A,T,C,G]\n";
 #chr1    10583   G       70,0,0,24       0,2,0,243       33,0,0,32       0,35,0,33
 open SNP,$output or die "no snp file\n";
@@ -126,7 +126,7 @@ sub genotype
 		if($lines[2] =~/C/i){#C>AA
 			my $qvalue=($wsq[0]>$crq[0])?$wsq[0]:$crq[0];
 			my $depth=$watson[2]+$crick[2]+$watson[0]+$crick[0];
-                        my $var=$watson[0]+$crick[0];	
+            my $var=$watson[0]+$crick[0];	
 			
 			if($depth >= $mincover  && $qvalue >= $minquali && $var >=$minread2 ){
                                 my $C2A=sprintf("%.3f",$var/$totaldepth);
@@ -848,6 +848,7 @@ sub genotype
                 }
         }   
 	unless($lines[2]=~/[ACGT]/i){
+        print "[ACGT]\n";
 		return 0;
 		#print "$lines[0]\t$lines[1]\t\.\t$lines[2]\t0\tSuper\tNN\t\.\t".join("\t",@lines[3..6])."\n";
 	}
@@ -885,6 +886,7 @@ sub Bayes
 		return "$gntpmaybe\t$qualerr"; 
 	}
 
+    print $baseqWA;
 
 	#P(Di|g=Gj)
 	my $nn=&Factorial($watson[0],$crick[1],$crick[2],$watson[3]);
