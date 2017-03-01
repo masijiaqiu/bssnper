@@ -72,6 +72,7 @@ while(<SNP>){
  next if(/^#/);
  my @a=split;
  my $geno=&genotype(\@a);
+ print "\n";
 
 # if($geno eq "REF"){
 	#print STDERR join("\t", @a)."\n";
@@ -97,7 +98,6 @@ sub genotype
 	my @crick=split /\,/,$lines[4];
 	my @wsq=split /\,/,$lines[5];
 	my @crq=split /\,/,$lines[6];
-
 	#print "$lines[0]\t$lines[1]\t$lines[2]\t$genotypemaybe\n";
 	my $totaldepth=$watson[0]+$watson[1]+$watson[2]+$watson[3]+$crick[0]+$crick[1]+$crick[2]+$crick[3];
 	if($genotypemaybe eq "AA"){#genotypeis AA
@@ -914,7 +914,6 @@ sub Bayes
 			$ag = $nn+ ($watson[0]+$watson[3]+$crick[3])*log($a_ag) + ($crick[2]+$crick[1]+$watson[2])*log($other);
 		}
 	}
-
 	if($crq[1]>0 ){###filter wsq[1]>0 but crq[1]==0
 		my $t_tt=1-$baseqCT;
 		#my $t_gt=(1-($baseqCT+$baseqWG)/2)/2;
@@ -933,6 +932,7 @@ sub Bayes
 			$gt= $nn + ($crick[1]+$watson[3]+$crick[3]) * log($t_gt) + ($watson[0]+$crick[2]+$watson[2])*log($other);	 
 		}
 	}	
+
 	if($crq[2]>0 || $wsq[2]>0){#CC CG
 		my $baseqC=($baseqCC>=$baseqWC)?$baseqWC:$baseqCC;		
 		my $c_cc=1-$baseqC;
@@ -964,6 +964,8 @@ sub Bayes
 			delete($hash{$type});
 		}
 	}
+
+
 
 	if($refbase eq "A"){
                 $aa+=log(0.985);
@@ -1074,8 +1076,8 @@ sub Bayes
 	}
 	
 	
-	
 	$qual=int($qual);
+
 
         return "$genotypemaybe\t$qual";
 	#return $genotypemaybe;
