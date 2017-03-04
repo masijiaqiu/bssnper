@@ -8,12 +8,11 @@
 
 #include <iostream>
 #include <fstream>
-#include <stdlib.h>
-#include <cstdlib>
 #include <string>
 #include <typeinfo>
 #include <math.h>
 #include <vector>
+#include <cstdlib>
 #include <map>
 using namespace std;
 
@@ -101,12 +100,12 @@ int main(int argc, const char * argv[]) {
     // }
     InitializeLoggedFactorialArray();              //initialize the logged gactorial array
 
-    ifstream snp_file("/Users/choumasijia/Projects/bssnper/sed10.sed.candidate");
-//    ifstream snp_file(argv[1]);
-//    if(!snp_file) {
-//        cout << "Cannot open input file.\n";
-//        return 1;
-//    }
+//    ifstream snp_file("/Users/choumasijia/Projects/bssnper/sed10.sed.candidate");
+    ifstream snp_file(argv[1]);
+    if(!snp_file) {
+        cout << "Cannot open input file.\n";
+        return 1;
+    }
     ofstream out_file("/Users/choumasijia/Projects/bssnper/bssnper/foo.out");
     char snpline[255];
     string strline;
@@ -189,11 +188,11 @@ vector<int> split2int(const string &s, const string &seperator){
     pos1 = 0;
     while (string::npos != pos2)
     {
-        result.push_back(atoi(s.substr(pos1, pos2 - pos1).c_str()));
+        result.push_back(stoi(s.substr(pos1, pos2 - pos1)));
         pos1 = pos2 + 1;
         pos2 = s.find(seperator, pos1);
     }
-    result.push_back(atoi(s.substr(pos1).c_str()));
+    result.push_back(stoi(s.substr(pos1)));
     return result;
 }
 
@@ -896,4 +895,5 @@ string GetGenotype(string ref, vector<int> watson, vector<int> crick, vector<int
 
     return geno_info;
 }
+
 
